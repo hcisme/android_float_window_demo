@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.net.toUri
 import com.chc.floatservice.services.FloatingWindowManager
 import com.chc.floatservice.ui.theme.FloatServiceTheme
-import com.chc.floatservice.utils.PreferenceManager
+import com.chc.floatservice.utils.PermissionPreferenceManager
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 
@@ -51,12 +51,11 @@ class MainActivity : ComponentActivity() {
 
                         LaunchedEffect(Unit) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                val isFirstOpen = PreferenceManager.isFirstLaunch(this@MainActivity)
-
-                                if (isFirstOpen) {
-                                    permissionState.launchPermissionRequest()
-                                    PreferenceManager.setFirstLaunchComplete(this@MainActivity)
-                                }
+                                PermissionPreferenceManager.managePermissionRequestFlow(
+                                    context = this@MainActivity,
+                                    permissionType = permissionState.permission,
+                                    onFirstRequest = { permissionState.launchPermissionRequest() }
+                                )
                             }
                         }
 

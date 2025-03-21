@@ -142,7 +142,7 @@ class FloatingWindowService : LifecycleService(), SavedStateRegistryOwner {
         if (!isViewAttached()) return
 
         currentAnimator = ValueAnimator.ofInt(params.x, targetX).apply {
-            duration = 3000
+            duration = 400
             interpolator = DecelerateInterpolator()
             addUpdateListener { animation ->
                 // 添加有效性检查
